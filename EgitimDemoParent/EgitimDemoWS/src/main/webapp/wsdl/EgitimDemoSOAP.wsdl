@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.egitimdemo.org/EgitimDemo/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="EgitimDemo" targetNamespace="http://www.egitimdemo.org/EgitimDemo/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.egitimdemo.org/EgitimDemo/">
+      <xsd:element name="GetCityList">
+        <xsd:complexType>
+          <xsd:sequence>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetCityListResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="cityList" type="tns:CityType"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    
+      <xsd:complexType name="CityType">
+      	<xsd:sequence>
+      		<xsd:element name="id" type="xsd:string"/>
+      		<xsd:element name="code" type="xsd:string"/>
+      		<xsd:element name="name" type="xsd:string"/>
+      		<xsd:element maxOccurs="unbounded" minOccurs="0" name="countyList" type="tns:CountyType"/>
+      	</xsd:sequence>
+      </xsd:complexType>
+      
+            <xsd:complexType name="CountyType">
+            	<xsd:sequence>
+            		<xsd:element name="id" type="xsd:string"/>
+            		<xsd:element name="name" type="xsd:string"/>
+            	</xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="GetCountyList">
+            	<xsd:complexType>
+            		<xsd:sequence>
+            			<xsd:element maxOccurs="1" minOccurs="1" name="city" type="tns:CityType">
+            			</xsd:element>
+            		</xsd:sequence>
+            	</xsd:complexType>
+            </xsd:element>
+            <xsd:element name="GetCountyListResponse">
+            	<xsd:complexType>
+            		<xsd:sequence>
+            			<xsd:element maxOccurs="unbounded" minOccurs="0" name="countyList" type="tns:CountyType"/>
+            		</xsd:sequence>
+            	</xsd:complexType>
+            </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="GetCityListRequest">
+    <wsdl:part element="tns:GetCityList" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="GetCityListResponse">
+    <wsdl:part element="tns:GetCityListResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="GetCountyListRequest">
+  	<wsdl:part element="tns:GetCountyList" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="GetCountyListResponse">
+  	<wsdl:part element="tns:GetCountyListResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="EgitimDemo">
+    <wsdl:operation name="GetCityList">
+      <wsdl:input message="tns:GetCityListRequest"/>
+      <wsdl:output message="tns:GetCityListResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetCountyList">
+    	<wsdl:input message="tns:GetCountyListRequest"/>
+    	<wsdl:output message="tns:GetCountyListResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EgitimDemoSOAP" type="tns:EgitimDemo">
+  	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  	<wsdl:operation name="GetCityList">
+  		<soap:operation soapAction="http://www.egitimdemo.org/EgitimDemo/GetCityList"/>
+  		<wsdl:input>
+  			<soap:body use="literal"/>
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"/>
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="GetCountyList">
+  		<soap:operation soapAction="http://www.egitimdemo.org/EgitimDemo/GetCountyList"/>
+  		<wsdl:input>
+  			<soap:body use="literal"/>
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"/>
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EgitimDemo">
+    <wsdl:port binding="tns:EgitimDemoSOAP" name="EgitimDemoSOAP">
+      <soap:address location="http://localhost:8080/EgitimDemoWS/services/EgitimDemoSOAP"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
